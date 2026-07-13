@@ -46,86 +46,159 @@
     }
 
     /* ── Photo grid ── */
-    .photo-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      grid-template-rows: 260px 260px;
-      gap: 8px;
-      margin: 28px 0 8px;
-      border-radius: var(--radius);
-      overflow: hidden;
-    }
-
-    .photo-grid .photo {
-      background: #e8e4df;
-      overflow: hidden;
-    }
-
-    .photo-grid .photo img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
-    }
-
-    .photo-grid .photo.hero {
-      grid-row: 1 / 3;
-    }
-
-    /* Right side 2×2 */
-    .photo-right {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      grid-template-rows: 260px 260px;
-      gap: 8px;
-    }
-
-    .photo-right .photo {
-      background: #e8e4df;
-      overflow: hidden;
-    }
-
-    .photo-right .photo img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
-    }
-
-    /* Secondary row */
-    .photo-secondary {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 8px;
-      margin-bottom: 28px;
-    }
-
-    .photo-secondary .photo {
-      background: #e8e4df;
-      overflow: hidden;
-      height: 200px;
-      border-radius: 0;
-    }
-
-    .photo-secondary .photo img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
-    }
-
-    /* Outer wrapper rounded corners */
     .gallery-wrapper {
       margin: 28px 0 28px;
       border-radius: var(--radius);
       overflow: hidden;
     }
 
-    .photo-grid .photo.placeholder {
+    .photo-grid-main {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+
+    .photo-grid-main .hero-slot {
+      height: 528px;
+      overflow: hidden;
+      background: #e8e4df;
+    }
+
+    .photo-grid-right {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: 260px 260px;
+      gap: 8px;
+    }
+
+    .photo-grid-right .slot {
+      overflow: hidden;
+      background: #e8e4df;
+    }
+
+    .photo-grid-secondary {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+      margin-top: 8px;
+    }
+
+    .photo-grid-secondary .slot {
+      height: 220px;
+      overflow: hidden;
+      background: #e8e4df;
+    }
+
+    .photo-grid-tertiary {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 8px;
+      margin-top: 8px;
+    }
+
+    .photo-grid-tertiary .slot {
+      height: 180px;
+      overflow: hidden;
+      background: #e8e4df;
+    }
+
+    .gallery-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      cursor: pointer;
+      transition: transform 0.25s ease, opacity 0.2s ease;
+    }
+
+    .gallery-img:hover {
+      transform: scale(1.02);
+      opacity: 0.92;
+    }
+
+    /* ── Lightbox ── */
+    .lightbox {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.92);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .lightbox.open {
+      display: flex;
+    }
+
+    .lightbox-inner {
+      position: relative;
+      max-width: 1200px;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .lightbox-img-wrap {
+      flex: 1;
       display: flex;
       align-items: center;
       justify-content: center;
-      color: #bbb;
+      min-height: 60vh;
+    }
+
+    .lightbox-img-wrap img {
+      max-width: 100%;
+      max-height: 88vh;
+      object-fit: contain;
+      border-radius: 6px;
+      display: block;
+    }
+
+    .lb-btn {
+      background: rgba(255,255,255,0.15);
+      border: none;
+      color: #fff;
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      font-size: 22px;
+      cursor: pointer;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.15s;
+    }
+    .lb-btn:hover { background: rgba(255,255,255,0.28); }
+
+    .lb-close {
+      position: absolute;
+      top: -56px;
+      right: 0;
+      background: rgba(255,255,255,0.12);
+      border: none;
+      color: #fff;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      font-size: 20px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.15s;
+    }
+    .lb-close:hover { background: rgba(255,255,255,0.25); }
+
+    .lb-counter {
+      position: absolute;
+      bottom: -36px;
+      left: 50%;
+      transform: translateX(-50%);
+      color: rgba(255,255,255,0.5);
       font-size: 13px;
       letter-spacing: 0.05em;
     }
@@ -263,19 +336,22 @@
     }
 
     /* ── Responsive ── */
-    @media (max-width: 680px) {
-      .gallery-wrapper > div:first-child {
-        grid-template-columns: 1fr !important;
+    @media (max-width: 768px) {
+      .photo-grid-main {
+        grid-template-columns: 1fr;
       }
-      .gallery-wrapper > div:first-child > div:first-child {
-        height: 280px !important;
+      .photo-grid-main .hero-slot {
+        height: 320px;
       }
-      .gallery-wrapper > div:first-child > div:last-child {
-        grid-template-columns: 1fr 1fr !important;
-        grid-template-rows: 140px 140px !important;
+      .photo-grid-right {
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: 160px 160px;
       }
-      .gallery-wrapper > div:last-child {
-        display: none !important;
+      .photo-grid-secondary {
+        grid-template-columns: 1fr 1fr;
+      }
+      .photo-grid-tertiary {
+        grid-template-columns: 1fr 1fr;
       }
       .listing-header { grid-template-columns: 1fr; gap: 0; }
       .amenity-grid { grid-template-columns: 1fr; }
@@ -295,34 +371,60 @@
 
     <!-- Photo gallery -->
     <div class="gallery-wrapper">
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
-        <!-- Hero -->
-        <div class="photo" style="height:528px;overflow:hidden;background:#e8e4df;">
-          <img src="photos/hero.jpg" alt="Living and dining area" style="width:100%;height:100%;object-fit:cover;display:block;">
+      <!-- Row 1: hero + 4 -->
+      <div class="photo-grid-main">
+        <div class="hero-slot">
+          <img class="gallery-img" src="photos/hero.jpg" alt="Living area" data-idx="0">
         </div>
-        <!-- Right 2×2 -->
-        <div style="display:grid;grid-template-columns:1fr 1fr;grid-template-rows:260px 260px;gap:8px;">
-          <div class="photo" style="overflow:hidden;background:#e8e4df;">
-            <img src="photos/bedroom.jpg" alt="Bedroom" style="width:100%;height:100%;object-fit:cover;display:block;">
+        <div class="photo-grid-right">
+          <div class="slot">
+            <img class="gallery-img" src="photos/bedroom.jpg" alt="Bedroom" data-idx="1">
           </div>
-          <div class="photo" style="overflow:hidden;background:#e8e4df;">
-            <img src="photos/patio.jpg" alt="Patio" style="width:100%;height:100%;object-fit:cover;display:block;">
+          <div class="slot">
+            <img class="gallery-img" src="photos/terrace.jpg" alt="Back terrace" data-idx="2">
           </div>
-          <div class="photo" style="overflow:hidden;background:#e8e4df;">
-            <img src="photos/workspace.jpg" alt="Workspace" style="width:100%;height:100%;object-fit:cover;display:block;">
+          <div class="slot">
+            <img class="gallery-img" src="photos/workspace.jpg" alt="Workspace" data-idx="3">
           </div>
-          <div class="photo" style="overflow:hidden;background:#e8e4df;">
-            <img src="photos/view.jpg" alt="Rooftop view" style="width:100%;height:100%;object-fit:cover;display:block;">
+          <div class="slot">
+            <img class="gallery-img" src="photos/view.jpg" alt="City view" data-idx="4">
           </div>
         </div>
       </div>
-      <!-- Secondary row -->
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px;">
-        <div style="height:200px;overflow:hidden;background:#e8e4df;">
-          <img src="photos/kitchen.jpg" alt="Kitchen" style="width:100%;height:100%;object-fit:cover;display:block;">
+      <!-- Row 2: 3 across -->
+      <div class="photo-grid-secondary">
+        <div class="slot">
+          <img class="gallery-img" src="photos/dining.jpg" alt="Dining area" data-idx="5">
         </div>
-        <div style="height:200px;overflow:hidden;background:#e8e4df;">
-          <img src="photos/living2.jpg" alt="Living room" style="width:100%;height:100%;object-fit:cover;display:block;">
+        <div class="slot">
+          <img class="gallery-img" src="photos/bedroom_ac.jpg" alt="Bedroom with balcony" data-idx="6">
+        </div>
+        <div class="slot">
+          <img class="gallery-img" src="photos/bedroom2.jpg" alt="Second bedroom" data-idx="7">
+        </div>
+      </div>
+      <!-- Row 3: 4 across -->
+      <div class="photo-grid-tertiary">
+        <div class="slot">
+          <img class="gallery-img" src="photos/bathroom.jpg" alt="Bathroom" data-idx="8">
+        </div>
+        <div class="slot">
+          <img class="gallery-img" src="photos/kitchen_smeg.jpg" alt="Kitchen" data-idx="9">
+        </div>
+        <div class="slot">
+          <img class="gallery-img" src="photos/kitchen_laundry.jpg" alt="Kitchen & terrace" data-idx="10">
+        </div>
+        <div class="slot">
+          <img class="gallery-img" src="photos/patio.jpg" alt="Patio" data-idx="11">
+        </div>
+      </div>
+      <!-- Row 4: remaining -->
+      <div class="photo-grid-secondary" style="margin-top:8px;">
+        <div class="slot">
+          <img class="gallery-img" src="photos/kitchen.jpg" alt="Kitchen" data-idx="12">
+        </div>
+        <div class="slot">
+          <img class="gallery-img" src="photos/living2.jpg" alt="Living room" data-idx="13">
         </div>
       </div>
     </div>
@@ -330,7 +432,7 @@
     <!-- Title -->
     <div class="listing-header">
       <div class="listing-title">
-        <h1>Sunny top-floor apartment in Santa Catarina</h1>
+        <h1>Top-floor apartment in Santa Catarina</h1>
         <div class="location">Lisbon, Portugal</div>
       </div>
     </div>
@@ -347,10 +449,16 @@
       </div>
       <div class="stat">
         <svg width="20" height="20" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <circle cx="16" cy="16" r="12" stroke="currentColor" stroke-width="2"/>
-          <path d="M16 8v8l4 4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          <path d="M4 20h24M4 24h24M6 20V12a2 2 0 012-2h12a2 2 0 012 2v8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M10 20v-5h5v5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
         </svg>
-        1.5 bathrooms
+        1 bathroom + bathtub
+      </div>
+      <div class="stat">
+        <svg width="20" height="20" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M16 4L4 16h4v12h8v-8h0v8h8V16h4L16 4z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        4th floor — no elevator
       </div>
       <div class="stat">
         <svg width="20" height="20" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -358,12 +466,6 @@
           <path d="M12 24v4M20 24v4M8 28h16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
         </svg>
         Dedicated workspace
-      </div>
-      <div class="stat">
-        <svg width="20" height="20" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M16 4L4 16h4v12h8v-8h0v8h8V16h4L16 4z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
-        Top floor
       </div>
       <div class="stat">
         <svg width="20" height="20" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -376,8 +478,8 @@
 
     <!-- Description -->
     <div class="description">
-      <p>Top-floor apartment in Santa Catarina — one of Lisbon's best neighborhoods, walkable to everything, quiet streets, great light. Two bedrooms, proper living space, and a standing-desk workspace set up for remote work.</p>
-      <p>The place has been my home base for the past few years. Fully stocked, high-speed internet (500 Mbps+), air conditioning, washer/dryer. Patio access. Short walk to Príncipe Real, LX Factory, the waterfront.</p>
+      <p>Top-floor apartment in Santa Catarina — one of Lisbon's best neighborhoods, a short walk to everything (Príncipe Real, Chiado, Santos). Quiet streets, great light, two Juliet balconies plus a back terrace with outdoor table and chairs.</p>
+      <p>Two bedrooms, proper living space, and a standing-desk workspace set up for remote work. The place has been my home base for the past few years. Fully stocked, 200 Mbps internet, portable air conditioner in the bedroom, washing machine. 4th floor, no elevator.</p>
     </div>
 
     <!-- Amenities -->
@@ -386,27 +488,27 @@
       <div class="amenity-grid">
         <div class="amenity">
           <svg width="20" height="20" viewBox="0 0 32 32" fill="none"><path d="M6 20h4m0 0v-8h12v8m0 0h4M4 28h24M4 4h24v16H4z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          500+ Mbps WiFi
+          200 Mbps+ WiFi
         </div>
         <div class="amenity">
           <svg width="20" height="20" viewBox="0 0 32 32" fill="none"><path d="M8 20V12h16v8M4 20h24M14 12V8a2 2 0 014 0v4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          Air conditioning
+          Portable AC (bedroom)
         </div>
         <div class="amenity">
           <svg width="20" height="20" viewBox="0 0 32 32" fill="none"><rect x="4" y="10" width="24" height="16" rx="2" stroke="currentColor" stroke-width="2"/><path d="M10 10V8a6 6 0 0112 0v2" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
-          Washer + dryer in unit
+          Washing machine
         </div>
         <div class="amenity">
           <svg width="20" height="20" viewBox="0 0 32 32" fill="none"><path d="M4 28s0-18 12-18 12 18 12 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M16 10V4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
-          Patio / balcony
+          2 Juliet balconies + back terrace
         </div>
         <div class="amenity">
           <svg width="20" height="20" viewBox="0 0 32 32" fill="none"><rect x="4" y="8" width="24" height="16" rx="2" stroke="currentColor" stroke-width="2"/><path d="M12 24v4M20 24v4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
           Standing desk + monitor
         </div>
         <div class="amenity">
-          <svg width="20" height="20" viewBox="0 0 32 32" fill="none"><path d="M16 4a8 8 0 100 16A8 8 0 0016 4zM4 28c0-4 5.4-7 12-7s12 3 12 7" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
-          Pets on request
+          <svg width="20" height="20" viewBox="0 0 32 32" fill="none"><circle cx="16" cy="14" r="8" stroke="currentColor" stroke-width="2"/><path d="M12 26h8M16 22v4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+          Paid parking nearby
         </div>
         <div class="amenity">
           <svg width="20" height="20" viewBox="0 0 32 32" fill="none"><path d="M6 4h20v24H6zM10 4V2M22 4V2M6 12h20" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
@@ -428,6 +530,57 @@
     </div>
 
   </div>
+
+  <!-- Lightbox -->
+  <div class="lightbox" id="lightbox">
+    <div class="lightbox-inner">
+      <button class="lb-close" id="lb-close" aria-label="Close">✕</button>
+      <button class="lb-btn" id="lb-prev" aria-label="Previous">&#8592;</button>
+      <div class="lightbox-img-wrap">
+        <img id="lb-img" src="" alt="">
+      </div>
+      <button class="lb-btn" id="lb-next" aria-label="Next">&#8594;</button>
+      <div class="lb-counter" id="lb-counter"></div>
+    </div>
+  </div>
+
+  <script>
+    const imgs = Array.from(document.querySelectorAll('.gallery-img'));
+    const lb = document.getElementById('lightbox');
+    const lbImg = document.getElementById('lb-img');
+    const lbCounter = document.getElementById('lb-counter');
+    let current = 0;
+
+    function open(idx) {
+      current = idx;
+      lbImg.src = imgs[idx].src;
+      lbImg.alt = imgs[idx].alt;
+      lbCounter.textContent = (idx + 1) + ' / ' + imgs.length;
+      lb.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function close() {
+      lb.classList.remove('open');
+      document.body.style.overflow = '';
+    }
+
+    function prev() { open((current - 1 + imgs.length) % imgs.length); }
+    function next() { open((current + 1) % imgs.length); }
+
+    imgs.forEach((img, i) => img.addEventListener('click', () => open(i)));
+    document.getElementById('lb-close').addEventListener('click', close);
+    document.getElementById('lb-prev').addEventListener('click', prev);
+    document.getElementById('lb-next').addEventListener('click', next);
+    lb.addEventListener('click', e => { if (e.target === lb) close(); });
+
+    document.addEventListener('keydown', e => {
+      if (!lb.classList.contains('open')) return;
+      if (e.key === 'Escape') close();
+      if (e.key === 'ArrowLeft') prev();
+      if (e.key === 'ArrowRight') next();
+    });
+  </script>
 
 </body>
 </html>
