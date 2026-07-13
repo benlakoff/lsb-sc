@@ -4,6 +4,13 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Lisbon Apartment — Santa Catarina</title>
+  <script
+    async
+    crossorigin="anonymous"
+    data-clerk-publishable-key="pk_test_c3VpdGFibGUtdGljay02My5jbGVyay5hY2NvdW50cy5kZXYk"
+    src="https://suitable-tick-63.clerk.accounts.dev/npm/@clerk/clerk-js@latest/dist/clerk.browser.js"
+    type="text/javascript"
+  ></script>
   <style>
     *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
@@ -373,6 +380,18 @@
 </head>
 <body>
 
+  <!-- Email gate — hidden after Clerk auth -->
+  <div id="auth-gate" style="position:fixed;inset:0;z-index:9999;display:flex;align-items:stretch;">
+    <!-- Left: cover photo -->
+    <div style="flex:1;background:url('photos/hero.jpg') center/cover no-repeat;min-width:0;"></div>
+    <!-- Right: sign-in panel -->
+    <div style="width:400px;flex-shrink:0;background:#fff;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:20px;padding:48px 40px;">
+      <div style="font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;font-size:12px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:#717171;text-align:center;">Lisbon: 2 BR/1.5 BA in Santa Catarina</div>
+      <div id="clerk-sign-in"></div>
+      <div style="font-size:12px;color:#aaa;max-width:280px;text-align:center;">Enter your email to receive a one-time access code.</div>
+    </div>
+  </div>
+
   <header>
     <div class="container">
       <span class="wordmark">Lisbon</span>
@@ -386,54 +405,45 @@
       <!-- Row 1: hero + 4 -->
       <div class="photo-grid-main">
         <div class="hero-slot">
-          <img class="gallery-img" src="photos/hero.jpg" alt="Living area" data-idx="0">
+          <img class="gallery-img" src="photos/hero.jpg" alt="Living Room" data-idx="0">
         </div>
         <div class="photo-grid-right">
           <div class="slot">
             <img class="gallery-img" src="photos/bedroom.jpg" alt="Bedroom" data-idx="1">
           </div>
           <div class="slot">
-            <img class="gallery-img" src="photos/terrace.jpg" alt="Back terrace" data-idx="2">
+            <img class="gallery-img" src="photos/terrace.jpg" alt="Patio" data-idx="2">
           </div>
           <div class="slot">
-            <img class="gallery-img" src="photos/workspace.jpg" alt="Workspace" data-idx="3">
+            <img class="gallery-img" src="photos/workspace.jpg" alt="Office" data-idx="3">
           </div>
           <div class="slot">
-            <img class="gallery-img" src="photos/view.jpg" alt="City view" data-idx="4">
+            <img class="gallery-img" src="photos/view.jpg" alt="View from Bedroom" data-idx="4">
           </div>
         </div>
       </div>
       <!-- Row 2: 3 across -->
       <div class="photo-grid-secondary">
         <div class="slot">
-          <img class="gallery-img" src="photos/dining.jpg" alt="Dining area" data-idx="5">
+          <img class="gallery-img" src="photos/dining.jpg" alt="Living Room" data-idx="5">
         </div>
         <div class="slot">
-          <img class="gallery-img" src="photos/bedroom_ac.jpg" alt="Bedroom with balcony" data-idx="6">
+          <img class="gallery-img" src="photos/bedroom2.jpg" alt="Bedroom" data-idx="6">
         </div>
         <div class="slot">
-          <img class="gallery-img" src="photos/bedroom2.jpg" alt="Second bedroom" data-idx="7">
+          <img class="gallery-img" src="photos/bathroom.jpg" alt="Bathroom" data-idx="7">
         </div>
       </div>
-      <!-- Row 3: 4 across -->
-      <div class="photo-grid-tertiary">
-        <div class="slot">
-          <img class="gallery-img" src="photos/bathroom.jpg" alt="Bathroom" data-idx="8">
-        </div>
-        <div class="slot">
-          <img class="gallery-img" src="photos/kitchen_smeg.jpg" alt="Kitchen" data-idx="9">
-        </div>
-        <div class="slot">
-          <img class="gallery-img" src="photos/kitchen_laundry.jpg" alt="Kitchen & terrace" data-idx="10">
-        </div>
-        <div class="slot">
-          <img class="gallery-img" src="photos/patio.jpg" alt="Patio" data-idx="11">
-        </div>
-      </div>
-      <!-- Row 4: remaining -->
+      <!-- Row 3: 3 across -->
       <div class="photo-grid-secondary" style="margin-top:8px;">
         <div class="slot">
-          <img class="gallery-img" src="photos/living2.jpg" alt="Living room" data-idx="12">
+          <img class="gallery-img" src="photos/kitchen_smeg.jpg" alt="Kitchen" data-idx="8">
+        </div>
+        <div class="slot">
+          <img class="gallery-img" src="photos/kitchen_laundry.jpg" alt="Kitchen" data-idx="9">
+        </div>
+        <div class="slot">
+          <img class="gallery-img" src="photos/living2.jpg" alt="Living Room" data-idx="10">
         </div>
       </div>
     </div>
@@ -555,6 +565,22 @@
   </div>
 
   <script>
+    // Clerk email gate
+    window.addEventListener('load', async () => {
+      const gate = document.getElementById('auth-gate');
+      const mountTarget = document.getElementById('clerk-sign-in');
+      if (!window.Clerk) return; // Clerk failed to load — open access as fallback
+      await window.Clerk.load();
+      if (window.Clerk.user) {
+        gate.style.display = 'none';
+      } else {
+        window.Clerk.mountSignIn(mountTarget, { appearance: { variables: { colorPrimary: '#222' } } });
+        window.Clerk.addListener(({ user }) => {
+          if (user) gate.style.display = 'none';
+        });
+      }
+    });
+
     const imgs = Array.from(document.querySelectorAll('.gallery-img'));
     const lb = document.getElementById('lightbox');
     const lbImg = document.getElementById('lb-img');
