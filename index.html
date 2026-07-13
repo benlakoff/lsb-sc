@@ -49,9 +49,9 @@
     .photo-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      grid-template-rows: 240px 240px;
+      grid-template-rows: 260px 260px;
       gap: 8px;
-      margin: 28px 0;
+      margin: 28px 0 8px;
       border-radius: var(--radius);
       overflow: hidden;
     }
@@ -70,6 +70,55 @@
 
     .photo-grid .photo.hero {
       grid-row: 1 / 3;
+    }
+
+    /* Right side 2×2 */
+    .photo-right {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: 260px 260px;
+      gap: 8px;
+    }
+
+    .photo-right .photo {
+      background: #e8e4df;
+      overflow: hidden;
+    }
+
+    .photo-right .photo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    /* Secondary row */
+    .photo-secondary {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      margin-bottom: 28px;
+    }
+
+    .photo-secondary .photo {
+      background: #e8e4df;
+      overflow: hidden;
+      height: 200px;
+      border-radius: 0;
+    }
+
+    .photo-secondary .photo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    /* Outer wrapper rounded corners */
+    .gallery-wrapper {
+      margin: 28px 0 28px;
+      border-radius: var(--radius);
+      overflow: hidden;
     }
 
     .photo-grid .photo.placeholder {
@@ -215,14 +264,19 @@
 
     /* ── Responsive ── */
     @media (max-width: 680px) {
-      .photo-grid {
-        grid-template-columns: 1fr;
-        grid-template-rows: 260px 140px 140px;
+      .gallery-wrapper > div:first-child {
+        grid-template-columns: 1fr !important;
       }
-      .photo-grid .photo.hero { grid-row: 1; }
-      .photo-grid .photo:nth-child(3) { display: none; }
-      .photo-grid .photo:nth-child(4) { display: none; }
-
+      .gallery-wrapper > div:first-child > div:first-child {
+        height: 280px !important;
+      }
+      .gallery-wrapper > div:first-child > div:last-child {
+        grid-template-columns: 1fr 1fr !important;
+        grid-template-rows: 140px 140px !important;
+      }
+      .gallery-wrapper > div:last-child {
+        display: none !important;
+      }
       .listing-header { grid-template-columns: 1fr; gap: 0; }
       .amenity-grid { grid-template-columns: 1fr; }
       h1 { font-size: 22px; }
@@ -239,16 +293,37 @@
 
   <div class="container">
 
-    <!-- Photo grid — replace src="" with real photo paths when ready -->
-    <div class="photo-grid">
-      <div class="photo hero">
-        <img src="photos/hero.jpg" alt="Living and dining area" onerror="this.parentElement.classList.add('placeholder'); this.remove(); this.parentElement.innerHTML = 'Photos coming soon';">
+    <!-- Photo gallery -->
+    <div class="gallery-wrapper">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+        <!-- Hero -->
+        <div class="photo" style="height:528px;overflow:hidden;background:#e8e4df;">
+          <img src="photos/hero.jpg" alt="Living and dining area" style="width:100%;height:100%;object-fit:cover;display:block;">
+        </div>
+        <!-- Right 2×2 -->
+        <div style="display:grid;grid-template-columns:1fr 1fr;grid-template-rows:260px 260px;gap:8px;">
+          <div class="photo" style="overflow:hidden;background:#e8e4df;">
+            <img src="photos/bedroom.jpg" alt="Bedroom" style="width:100%;height:100%;object-fit:cover;display:block;">
+          </div>
+          <div class="photo" style="overflow:hidden;background:#e8e4df;">
+            <img src="photos/patio.jpg" alt="Patio" style="width:100%;height:100%;object-fit:cover;display:block;">
+          </div>
+          <div class="photo" style="overflow:hidden;background:#e8e4df;">
+            <img src="photos/workspace.jpg" alt="Workspace" style="width:100%;height:100%;object-fit:cover;display:block;">
+          </div>
+          <div class="photo" style="overflow:hidden;background:#e8e4df;">
+            <img src="photos/view.jpg" alt="Rooftop view" style="width:100%;height:100%;object-fit:cover;display:block;">
+          </div>
+        </div>
       </div>
-      <div class="photo">
-        <img src="photos/bedroom.jpg" alt="Bedroom" onerror="this.parentElement.classList.add('placeholder'); this.remove(); this.parentElement.innerHTML = '';">
-      </div>
-      <div class="photo">
-        <img src="photos/workspace.jpg" alt="Workspace" onerror="this.parentElement.classList.add('placeholder'); this.remove(); this.parentElement.innerHTML = '';">
+      <!-- Secondary row -->
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px;">
+        <div style="height:200px;overflow:hidden;background:#e8e4df;">
+          <img src="photos/kitchen.jpg" alt="Kitchen" style="width:100%;height:100%;object-fit:cover;display:block;">
+        </div>
+        <div style="height:200px;overflow:hidden;background:#e8e4df;">
+          <img src="photos/living2.jpg" alt="Living room" style="width:100%;height:100%;object-fit:cover;display:block;">
+        </div>
       </div>
     </div>
 
