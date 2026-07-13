@@ -208,26 +208,47 @@
     }
     .lb-close:hover { background: rgba(255,255,255,0.25); }
 
-    .lb-counter {
+    .lb-meta {
       position: absolute;
-      bottom: -36px;
+      bottom: 24px;
       left: 50%;
       transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      white-space: nowrap;
+    }
+
+    .lb-caption {
+      color: rgba(255,255,255,0.9);
+      font-size: 15px;
+      font-weight: 500;
+      letter-spacing: 0.02em;
+    }
+
+    .lb-counter {
       color: rgba(255,255,255,0.5);
       font-size: 13px;
       letter-spacing: 0.05em;
     }
 
-    .lb-caption {
+    .slot, .hero-slot {
+      position: relative;
+    }
+
+    .slot-caption {
       position: absolute;
-      bottom: -64px;
-      left: 50%;
-      transform: translateX(-50%);
-      color: rgba(255,255,255,0.85);
-      font-size: 15px;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: linear-gradient(transparent, rgba(0,0,0,0.52));
+      color: #fff;
+      font-size: 12px;
       font-weight: 500;
-      white-space: nowrap;
-      letter-spacing: 0.02em;
+      padding: 20px 10px 8px;
+      letter-spacing: 0.04em;
+      pointer-events: none;
     }
 
     /* ── Title block ── */
@@ -416,44 +437,55 @@
       <div class="photo-grid-main">
         <div class="hero-slot">
           <img class="gallery-img" src="photos/hero.jpg" alt="Living Room" data-idx="0">
+          <div class="slot-caption">Living Room</div>
         </div>
         <div class="photo-grid-right">
           <div class="slot">
             <img class="gallery-img" src="photos/bedroom.jpg" alt="Bedroom" data-idx="1">
+            <div class="slot-caption">Bedroom</div>
           </div>
           <div class="slot">
             <img class="gallery-img" src="photos/terrace.jpg" alt="Patio" data-idx="2">
+            <div class="slot-caption">Patio</div>
           </div>
           <div class="slot">
             <img class="gallery-img" src="photos/workspace.jpg" alt="Office" data-idx="3">
+            <div class="slot-caption">Office</div>
           </div>
           <div class="slot">
             <img class="gallery-img" src="photos/view.jpg" alt="View from Bedroom" data-idx="4">
+            <div class="slot-caption">View from Bedroom</div>
           </div>
         </div>
       </div>
       <!-- Row 2: 3 across -->
       <div class="photo-grid-secondary">
         <div class="slot">
-          <img class="gallery-img" src="photos/dining.jpg" alt="Living Room" data-idx="5">
+          <img class="gallery-img" src="photos/dining.jpg" alt="Dining Area" data-idx="5">
+          <div class="slot-caption">Dining Area</div>
         </div>
         <div class="slot">
-          <img class="gallery-img" src="photos/bedroom2.jpg" alt="Bedroom" data-idx="6">
+          <img class="gallery-img" src="photos/bedroom2.jpg" alt="Second Bedroom" data-idx="6">
+          <div class="slot-caption">Second Bedroom</div>
         </div>
         <div class="slot">
           <img class="gallery-img" src="photos/bathroom.jpg" alt="Bathroom" data-idx="7">
+          <div class="slot-caption">Bathroom</div>
         </div>
       </div>
       <!-- Row 3: 3 across -->
       <div class="photo-grid-secondary" style="margin-top:8px;">
         <div class="slot">
           <img class="gallery-img" src="photos/kitchen_smeg.jpg" alt="Kitchen" data-idx="8">
+          <div class="slot-caption">Kitchen</div>
         </div>
         <div class="slot">
-          <img class="gallery-img" src="photos/kitchen_laundry.jpg" alt="Kitchen" data-idx="9">
+          <img class="gallery-img" src="photos/kitchen_laundry.jpg" alt="Kitchen / Laundry" data-idx="9">
+          <div class="slot-caption">Kitchen / Laundry</div>
         </div>
         <div class="slot">
           <img class="gallery-img" src="photos/living2.jpg" alt="Living Room" data-idx="10">
+          <div class="slot-caption">Living Room</div>
         </div>
       </div>
     </div>
@@ -554,8 +586,8 @@
     <div class="cta-section">
       <h2>Interested?</h2>
       <p>Send a note with your dates and a bit about yourself. I'll get back to you quickly.</p>
-      <a class="cta-btn" href="mailto:ozzy@bnk.vc?subject=Lisbon apartment inquiry">Email to inquire</a>
-      <div class="cta-note">ozzy@bnk.vc</div>
+      <a class="cta-btn" href="mailto:house@benlakoff.com?subject=Lisbon apartment inquiry">Email to inquire</a>
+      <div class="cta-note">house@benlakoff.com</div>
     </div>
 
   </div>
@@ -569,8 +601,10 @@
         <img id="lb-img" src="" alt="">
       </div>
       <button class="lb-btn" id="lb-next" aria-label="Next">&#8594;</button>
-      <div class="lb-counter" id="lb-counter"></div>
+    </div>
+    <div class="lb-meta">
       <div class="lb-caption" id="lb-caption"></div>
+      <div class="lb-counter" id="lb-counter"></div>
     </div>
   </div>
 
