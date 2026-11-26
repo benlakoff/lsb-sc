@@ -377,6 +377,16 @@
 
     .cta-btn:hover { opacity: 0.85; }
 
+    .inq-form { display:flex; flex-direction:column; gap:12px; text-align:left; }
+    .inq-form input, .inq-form textarea {
+      width:100%; box-sizing:border-box; padding:14px 16px; font:inherit; font-size:15px;
+      border:1px solid #ddd; border-radius:8px; background:#fff; color:inherit; resize:vertical;
+    }
+    .inq-form input:focus, .inq-form textarea:focus { outline:none; border-color:var(--accent); }
+    .inq-form .cta-btn { border:0; cursor:pointer; align-self:center; margin-top:8px; }
+    .inq-form .cta-btn:disabled { opacity:0.5; cursor:default; }
+    .inq-form .cta-note { text-align:center; min-height:1em; }
+
     .cta-note {
       margin-top: 16px;
       font-size: 13px;
@@ -586,8 +596,14 @@
     <div class="cta-section">
       <h2>Interested?</h2>
       <p>Send a note with your dates and a bit about yourself. I'll get back to you quickly.</p>
-      <a class="cta-btn" href="mailto:house@benlakoff.com?subject=Lisbon apartment inquiry">Email to inquire</a>
-      <div class="cta-note">house@benlakoff.com</div>
+      <form id="inquiry-form" class="inq-form" onsubmit="return handleInquiry(event)">
+        <input type="text" id="inq-name" placeholder="Your name" required autocomplete="name">
+        <input type="email" id="inq-email" placeholder="Your email" required autocomplete="email">
+        <input type="text" id="inq-dates" placeholder="Dates (e.g. 1 Feb to 30 Apr)" required>
+        <textarea id="inq-message" rows="4" placeholder="A bit about yourself and why you're coming to Lisbon"></textarea>
+        <button type="submit" class="cta-btn" id="inq-submit">Send inquiry</button>
+        <div class="cta-note" id="inq-status"></div>
+      </form>
     </div>
 
   </div>
@@ -609,6 +625,9 @@
   </div>
 
   <script>
+    // benlakoff.com Apps Script: appends to Sheet "Responses" + emails Ben.
+    const GATE_ENDPOINT = 'https://script.google.com/macros/s/AKfycbzD_KdZOrUyVvYcbGZ91zYhL4M8DVR9-x99wSt0aZABDKVvdACmW7uBwfdO4mADuG2iBA/exec';
+
     // Email gate
     function unlockGate() {
       document.getElementById('auth-gate').style.display = 'none';
@@ -626,7 +645,6 @@
       localStorage.setItem('lsb_gate_email', email);
       // Visitor log -> benlakoff.com Apps Script (Sheet "Responses" + email notify).
       // Form-encoded because the script reads e.parameter; no-cors so no preflight.
-      const GATE_ENDPOINT = 'https://script.google.com/macros/s/AKfycbzD_KdZOrUyVvYcbGZ91zYhL4M8DVR9-x99wSt0aZABDKVvdACmW7uBwfdO4mADuG2iBA/exec';
       if (GATE_ENDPOINT) {
         try {
           await fetch(GATE_ENDPOINT, {
@@ -648,8 +666,50 @@
     }
 
     window.addEventListener('load', () => {
-      if (localStorage.getItem('lsb_gate_email')) unlockGate();
+      const saved = localStorage.getItem('lsb_gate_email');
+      if (saved) {
+        unlockGate();
+        document.getElementById('inq-email').value = saved;
+      }
     });
+
+    // Inquiry form (replaces the public mailto so the inbox address stays hidden)
+    async function handleInquiry(e) {
+      e.preventDefault();
+      const btn = document.getElementById('inq-submit');
+      const status = document.getElementById('inq-status');
+      const name = document.getElementById('inq-name').value.trim();
+      const email = document.getElementById('inq-email').value.trim();
+      const dates = document.getElementById('inq-dates').value.trim();
+      const note = document.getElementById('inq-message').value.trim();
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+        status.textContent = 'Please enter a valid email address.';
+        return false;
+      }
+      btn.disabled = true;
+      btn.textContent = 'Sending...';
+      try {
+        await fetch(GATE_ENDPOINT, {
+          method: 'POST',
+          mode: 'no-cors',
+          body: new URLSearchParams({
+            name,
+            email,
+            company: '',
+            inquiry_type: 'Other',
+            message: 'Lisbon listing inquiry\nDates: ' + dates + (note ? '\n\n' + note : ''),
+            page: location.href
+          })
+        });
+        document.getElementById('inquiry-form').innerHTML =
+          '<p style="margin:0;text-align:center;">Thanks, ' + name.split(' ')[0].replace(/[<>&"]/g, '') + '. Got it, I\'ll be in touch soon.</p>';
+      } catch (_) {
+        btn.disabled = false;
+        btn.textContent = 'Send inquiry';
+        status.textContent = 'Something went wrong. Please try again.';
+      }
+      return false;
+    }
 
     const imgs = Array.from(document.querySelectorAll('.gallery-img'));
     const lb = document.getElementById('lightbox');
