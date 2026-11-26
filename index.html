@@ -624,15 +624,22 @@
       document.getElementById('gate-error').style.display = 'none';
       document.getElementById('gate-submit').textContent = 'Opening...';
       localStorage.setItem('lsb_gate_email', email);
-      // Optional visitor log (Google Apps Script web app URL). Empty = no logging.
-      const GATE_ENDPOINT = '';
+      // Visitor log -> benlakoff.com Apps Script (Sheet "Responses" + email notify).
+      // Form-encoded because the script reads e.parameter; no-cors so no preflight.
+      const GATE_ENDPOINT = 'https://script.google.com/macros/s/AKfycbzD_KdZOrUyVvYcbGZ91zYhL4M8DVR9-x99wSt0aZABDKVvdACmW7uBwfdO4mADuG2iBA/exec';
       if (GATE_ENDPOINT) {
         try {
           await fetch(GATE_ENDPOINT, {
             method: 'POST',
             mode: 'no-cors',
-            headers: {'Content-Type': 'text/plain'},
-            body: JSON.stringify({email, ts: new Date().toISOString()})
+            body: new URLSearchParams({
+              name: 'Listing visitor',
+              email,
+              company: '',
+              inquiry_type: 'Other',
+              message: 'Unlocked the Lisbon listing gate',
+              page: location.href
+            })
           });
         } catch (_) {}
       }
