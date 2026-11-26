@@ -4,24 +4,24 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Lisbon Apartment in Santa Catarina</title>
-  <meta name="description" content="Top-floor 2 bedroom, 1.5 bathroom apartment in Santa Catarina, Lisbon. €2,500 / month, minimum stay 1 month. 1 minute walk to the Miradouro de Santa Catarina. Back terrace, standing-desk workspace, fast WiFi.">
+  <meta name="description" content="Top-floor 2 bedroom, 1.5 bathroom apartment in Santa Catarina, Lisbon. €2,500 / month plus bills, minimum stay 1 month. 1 minute walk to the Miradouro de Santa Catarina. Back terrace, standing-desk workspace, 200 Mbps WiFi.">
   <meta property="og:type" content="website">
   <meta property="og:title" content="Lisbon Apartment in Santa Catarina">
-  <meta property="og:description" content="Top-floor 2 bedroom, 1.5 bathroom apartment in Santa Catarina, Lisbon. €2,500 / month, minimum stay 1 month. 1 minute walk to the Miradouro de Santa Catarina. Back terrace, standing-desk workspace, fast WiFi.">
+  <meta property="og:description" content="Top-floor 2 bedroom, 1.5 bathroom apartment in Santa Catarina, Lisbon. €2,500 / month plus bills, minimum stay 1 month. 1 minute walk to the Miradouro de Santa Catarina. Back terrace, standing-desk workspace, 200 Mbps WiFi.">
   <!-- og:image must be absolute. Update the host here if the site moves. -->
   <meta property="og:image" content="https://lisbon.up.railway.app/photos/og.jpg">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta property="og:image:alt" content="Back terrace of the apartment with table and chairs">
   <meta name="twitter:title" content="Lisbon Apartment in Santa Catarina">
-  <meta name="twitter:description" content="Top-floor 2 bedroom, 1.5 bathroom apartment in Santa Catarina, Lisbon. €2,500 / month, minimum stay 1 month. 1 minute walk to the Miradouro de Santa Catarina. Back terrace, standing-desk workspace, fast WiFi.">
+  <meta name="twitter:description" content="Top-floor 2 bedroom, 1.5 bathroom apartment in Santa Catarina, Lisbon. €2,500 / month plus bills, minimum stay 1 month. 1 minute walk to the Miradouro de Santa Catarina. Back terrace, standing-desk workspace, 200 Mbps WiFi.">
   <meta name="twitter:image" content="https://lisbon.up.railway.app/photos/og.jpg">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="theme-color" content="#ffffff">
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23222'/%3E%3Cpath d='M16 7 6 16h3v9h5v-6h4v6h5v-9h3z' fill='%23fff'/%3E%3C/svg%3E">
   <link rel="preload" as="image" href="photos/terrace.jpg" imagesrcset="photos/thumbs/terrace.jpg 675w, photos/terrace.jpg 1500w" imagesizes="(max-width: 768px) 100vw, 50vw">
   <script>
-    // Gate machine, early restore: returning visitors skip the gate before first paint.
+    // Gate machine, early restore: returning visitors see the full listing before first paint.
     // (See STATE_MACHINES.md. The machine in the main script re-reads this same key.)
     try { if (localStorage.getItem('lsb_gate_email')) document.documentElement.dataset.gate = 'unlocked'; } catch (e) {}
   </script>
@@ -54,30 +54,28 @@
     :focus-visible { outline: 2px solid #1a73e8; outline-offset: 2px; }
     .slot:focus-visible, .hero-slot:focus-visible { outline-offset: -3px; z-index: 1; }
     .lightbox :focus-visible { outline-color: #fff; }
-    #listing-title:focus { outline: none; }
+    #details:focus { outline: none; }
 
     /* Scroll lock is derived from machine state, never set imperatively. */
-    html[data-gate="locked"] body,
-    html[data-gate="submitting"] body,
     html[data-lightbox="open"] body { overflow: hidden; }
 
-    /* ── Email gate (rendered from html[data-gate]) ── */
-    .gate { position: fixed; inset: 0; z-index: 9999; display: flex; align-items: stretch; background: #fff; }
+    /* ── Email gate: inline unlock card (rendered from html[data-gate]) ── */
+    html:not([data-gate="unlocked"]) .gated { display: none; }
     html[data-gate="unlocked"] .gate { display: none; }
-    .gate-photo { flex: 1; min-width: 0; background: #e8e4df url('photos/hero.jpg') center/cover no-repeat; }
-    .gate-panel {
-      width: 400px; flex-shrink: 0; background: #fff; display: flex; align-items: center;
-      justify-content: center; flex-direction: column; gap: 20px; padding: 48px 40px;
+    .gate {
+      display: flex; align-items: center; gap: 28px; margin: 24px 0 56px; padding: 24px;
+      background: #f7f7f7; border: 1px solid var(--border); border-radius: var(--radius);
     }
-    .gate-title {
-      font-size: 12px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase;
-      color: var(--muted); text-align: center;
-    }
-    .gate-hint { font-size: 12px; color: var(--muted); max-width: 280px; text-align: center; }
-    #gate-form { display: flex; flex-direction: column; gap: 12px; width: 100%; max-width: 280px; }
+    .gate-thumbs { flex: 1; min-width: 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; }
+    .gate-thumbs img { width: 100%; height: 170px; object-fit: cover; display: block; border-radius: 8px; background: #e8e4df; }
+    .gate-panel { flex: 0 0 320px; display: flex; flex-direction: column; gap: 10px; }
+    .gate-title { font-size: 20px; font-weight: 600; line-height: 1.3; }
+    .gate-hook { font-size: 15px; font-weight: 500; }
+    .gate-hint { font-size: 14px; color: var(--muted); }
+    #gate-form { display: flex; flex-direction: column; gap: 10px; width: 100%; margin-top: 6px; }
     #gate-email {
       width: 100%; padding: 12px 14px; border: 1.5px solid #d9d9d9; border-radius: 8px;
-      font-size: 16px; font-family: inherit; transition: border-color 0.15s;
+      font-size: 16px; font-family: inherit; background: #fff; transition: border-color 0.15s;
     }
     #gate-email:focus { border-color: #222; outline: none; }
     #gate-email[aria-invalid="true"] { border-color: #c0392b; }
@@ -91,9 +89,9 @@
     #gate-error { color: #c0392b; font-size: 13px; }
     #gate-error:empty { display: none; }
     @media (max-width: 768px) {
-      .gate { flex-direction: column; }
-      .gate-photo { flex: 1 1 40%; }
-      .gate-panel { width: 100%; flex: 0 0 auto; padding: 32px 24px 40px; }
+      .gate { flex-direction: column; align-items: stretch; gap: 18px; padding: 16px; margin: 20px 0 40px; }
+      .gate-thumbs img { height: 96px; }
+      .gate-panel { flex: 0 0 auto; }
     }
 
     /* ── Header ── */
@@ -117,8 +115,8 @@
     }
 
     /* ── Photo grid ── */
+    .gallery-frame { position: relative; margin: 20px 0 4px; }
     .gallery-wrapper {
-      margin: 20px 0 4px;
       border-radius: var(--radius);
       overflow: hidden;
     }
@@ -320,7 +318,7 @@
     .price-box { text-align: right; white-space: nowrap; }
     .price { font-size: 18px; color: var(--text); }
     .price strong { font-size: 28px; font-weight: 600; letter-spacing: -0.01em; }
-    .min-stay { margin-top: 4px; font-size: 15px; color: var(--muted); }
+    .min-stay, .bills { margin-top: 4px; font-size: 15px; color: var(--muted); }
 
     .good-to-know {
       display: flex;
@@ -336,7 +334,6 @@
     }
     .good-to-know svg { flex-shrink: 0; margin-top: 1px; color: var(--muted); }
 
-    .photo-grid-main { position: relative; }
     .photo-count {
       position: absolute;
       top: 12px;
@@ -408,6 +405,7 @@
       font-weight: 600;
       margin-bottom: 20px;
     }
+    .amenities .amenities-note { margin-top: 20px; font-size: 15px; color: var(--muted); }
 
     .amenity-grid {
       display: grid;
@@ -448,6 +446,7 @@
       margin-bottom: 28px;
       line-height: 1.6;
     }
+    .cta-section .host-line { margin-bottom: 12px; color: var(--text); font-weight: 500; }
 
     .cta-btn {
       display: inline-block;
@@ -473,6 +472,9 @@
     .inq-form [aria-invalid="true"] { border-color:#c0392b; }
     .inq-form .cta-btn { border:0; cursor:pointer; align-self:center; margin-top:8px; font-family:inherit; }
     .inq-form .cta-btn:disabled { opacity:0.5; cursor:default; }
+    .inq-dates { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+    .inq-dates label { display:block; margin-bottom:4px; font-size:13px; font-weight:500; color:var(--muted); }
+    .inq-form input[type="date"] { min-height:52px; -webkit-appearance:none; appearance:none; }
     .inq-form .hp { position:absolute; left:-9999px; width:1px; height:1px; opacity:0; }
 
     /* Inquiry is rendered from .cta-section[data-state] */
@@ -487,22 +489,23 @@
 
     /* ── Responsive ── */
     @media (max-width: 768px) {
-      .photo-grid-main {
-        grid-template-columns: 1fr;
+/* Gallery becomes a swipe carousel so the details follow right after it. */
+      .gallery-wrapper {
+        display: flex;
+        gap: 8px;
+        overflow-x: auto;
+        scroll-snap-type: x mandatory;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
       }
-      .photo-grid-main .hero-slot {
-        height: 320px;
+      .gallery-wrapper::-webkit-scrollbar { display: none; }
+      .photo-grid-main, .photo-grid-right, .photo-grid-secondary { display: contents; }
+      .gallery-wrapper .slot, .gallery-wrapper .hero-slot {
+        flex: 0 0 86%;
+        height: 300px;
+        scroll-snap-align: start;
+        border-radius: var(--radius);
       }
-      .photo-grid-right {
-        grid-template-columns: 1fr 1fr;
-        grid-template-rows: 160px 160px;
-      }
-      .photo-grid-secondary {
-        grid-template-columns: 1fr 1fr;
-      }
-      .photo-grid-secondary .slot { height: 180px; }
-      /* 3 photos in 2 columns: the first spans the row so there is no orphan gap */
-      .photo-grid-secondary .slot:first-child { grid-column: 1 / -1; height: 260px; }
       .lb-stage { padding: 0 8px; gap: 0; position: relative; }
       .lb-stage .lb-btn { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(0,0,0,0.45); z-index: 1; }
       #lb-prev { left: 12px; }
@@ -519,21 +522,6 @@
 </head>
 <body>
 
-  <!-- Email gate. State lives on <html data-gate="locked|submitting|unlocked">. -->
-  <div id="auth-gate" class="gate" role="dialog" aria-modal="true" aria-labelledby="gate-title">
-    <div class="gate-photo" role="img" aria-label="Living room of the apartment"></div>
-    <div class="gate-panel">
-      <div class="gate-title" id="gate-title">Lisbon: 2 BR/1.5 BA in Santa Catarina</div>
-      <form id="gate-form" novalidate>
-        <label class="sr-only" for="gate-email">Your email address</label>
-        <input type="email" id="gate-email" placeholder="Your email address" required autocomplete="email" inputmode="email" aria-describedby="gate-error">
-        <div id="gate-error" role="alert"></div>
-        <button type="submit" id="gate-submit">View listing</button>
-      </form>
-      <div class="gate-hint">Enter your email to access photos and details.</div>
-    </div>
-  </div>
-
   <div id="page">
   <header>
     <div class="container">
@@ -546,7 +534,7 @@
     <!-- Title -->
     <div class="listing-header">
       <div class="listing-title">
-        <h1 id="listing-title" tabindex="-1">Top-floor apartment in Santa Catarina</h1>
+        <h1 id="listing-title">Top-floor apartment in Santa Catarina</h1>
         <div class="location">Santa Catarina, Lisbon, Portugal</div>
         <div class="location location-near">
           <svg aria-hidden="true" width="16" height="16" viewBox="0 0 32 32" fill="none"><path d="M16 29s9-8.2 9-15a9 9 0 10-18 0c0 6.8 9 15 9 15z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><circle cx="16" cy="14" r="3" stroke="currentColor" stroke-width="2"/></svg>
@@ -555,6 +543,7 @@
       </div>
       <div class="price-box">
         <div class="price"><strong>€2,500</strong> / month</div>
+        <div class="bills">Bills not included, approx. €150 / month</div>
         <div class="min-stay">Minimum stay: 1 month</div>
       </div>
     </div>
@@ -566,6 +555,7 @@
     </div>
 
     <!-- Photo gallery -->
+    <div class="gallery-frame">
     <div class="gallery-wrapper" id="gallery" role="group" aria-label="Photos">
       <!-- Row 1: hero (terrace) + 4 -->
       <div class="photo-grid-main">
@@ -574,9 +564,9 @@
           <span class="slot-caption" aria-hidden="true">Terrace</span>
         </button>
         <div class="photo-grid-right">
-          <button type="button" class="slot" data-idx="1" data-full="photos/view.jpg" data-caption="View from Bedroom" aria-label="View photo 2 of 11: View from Bedroom">
+          <button type="button" class="slot" data-idx="1" data-full="photos/view.jpg" data-caption="View from Bedroom (living room similar)" aria-label="View photo 2 of 11: View from Bedroom (living room similar)">
             <img class="gallery-img" src="photos/thumbs/view.jpg" alt="View over Lisbon rooftops from the bedroom" width="675" height="900" loading="lazy" decoding="async">
-            <span class="slot-caption" aria-hidden="true">View from Bedroom</span>
+            <span class="slot-caption" aria-hidden="true">View from Bedroom (living room similar)</span>
           </button>
           <button type="button" class="slot" data-idx="2" data-full="photos/hero.jpg" data-caption="Living Room" aria-label="View photo 3 of 11: Living Room">
             <img class="gallery-img" src="photos/thumbs/hero.jpg" alt="Living room with sofa, dining table and balcony doors" width="900" height="675" loading="lazy" decoding="async">
@@ -591,13 +581,9 @@
             <span class="slot-caption" aria-hidden="true">Office</span>
           </button>
         </div>
-        <button type="button" class="photo-count" id="photo-count" aria-label="View all 11 photos">
-          <svg aria-hidden="true" width="14" height="14" viewBox="0 0 16 16" fill="none"><rect x="1.5" y="3.5" width="13" height="10" rx="1.5" stroke="currentColor" stroke-width="1.5"/><circle cx="8" cy="8.5" r="2.5" stroke="currentColor" stroke-width="1.5"/></svg>
-          <span id="photo-count-text">11 photos</span>
-        </button>
       </div>
-      <!-- Row 2: 3 across -->
-      <div class="photo-grid-secondary">
+      <!-- Row 2: 3 across (rows 2 and 3 are gated) -->
+      <div class="photo-grid-secondary gated">
         <button type="button" class="slot" data-idx="5" data-full="photos/dining.jpg" data-caption="Dining Area" aria-label="View photo 6 of 11: Dining Area">
           <img class="gallery-img" src="photos/thumbs/dining.jpg" alt="Round glass dining table with four chairs under a skylight" width="675" height="900" loading="lazy" decoding="async">
           <span class="slot-caption" aria-hidden="true">Dining Area</span>
@@ -612,7 +598,7 @@
         </button>
       </div>
       <!-- Row 3: 3 across -->
-      <div class="photo-grid-secondary">
+      <div class="photo-grid-secondary gated">
         <button type="button" class="slot" data-idx="8" data-full="photos/kitchen_smeg.jpg" data-caption="Kitchen" aria-label="View photo 9 of 11: Kitchen">
           <img class="gallery-img" src="photos/thumbs/kitchen_smeg.jpg" alt="Kitchen with gas hob, oven and red fridge" width="675" height="900" loading="lazy" decoding="async">
           <span class="slot-caption" aria-hidden="true">Kitchen</span>
@@ -627,6 +613,35 @@
         </button>
       </div>
     </div>
+    <button type="button" class="photo-count" id="photo-count" aria-label="View all 11 photos">
+      <svg aria-hidden="true" width="14" height="14" viewBox="0 0 16 16" fill="none"><rect x="1.5" y="3.5" width="13" height="10" rx="1.5" stroke="currentColor" stroke-width="1.5"/><circle cx="8" cy="8.5" r="2.5" stroke="currentColor" stroke-width="1.5"/></svg>
+      <span id="photo-count-text">11 photos</span>
+    </button>
+    </div>
+
+    <!-- Email gate: inline unlock card. State lives on <html data-gate="locked|submitting|unlocked">.
+         Everything with class="gated" is hidden until the state is unlocked. -->
+    <section id="auth-gate" class="gate" aria-labelledby="gate-title">
+      <div class="gate-thumbs" aria-hidden="true">
+        <img src="photos/thumbs/dining.jpg" alt="" width="675" height="900" loading="lazy" decoding="async">
+        <img src="photos/thumbs/bedroom2.jpg" alt="" width="675" height="900" loading="lazy" decoding="async">
+        <img src="photos/thumbs/kitchen_smeg.jpg" alt="" width="675" height="900" loading="lazy" decoding="async">
+      </div>
+      <div class="gate-panel">
+        <h2 class="gate-title" id="gate-title">See the rest of the apartment</h2>
+        <p class="gate-hook">€2,500 / month · 1 min to the Miradouro</p>
+        <p class="gate-hint" id="gate-hint">Enter your email to see 6 more photos, the full details and the inquiry form.</p>
+        <form id="gate-form" novalidate>
+          <label class="sr-only" for="gate-email">Your email address</label>
+          <input type="email" id="gate-email" placeholder="Your email address" required autocomplete="email" inputmode="email" aria-describedby="gate-hint gate-error">
+          <div id="gate-error" role="alert"></div>
+          <button type="submit" id="gate-submit">Unlock full listing</button>
+        </form>
+      </div>
+    </section>
+
+    <!-- Everything below is gated -->
+    <section id="details" class="gated" tabindex="-1" aria-label="Listing details">
 
     <!-- Quick stats -->
     <div class="stats">
@@ -669,8 +684,8 @@
 
     <!-- Description -->
     <div class="description">
-      <p>Top-floor apartment in Santa Catarina, one of Lisbon's best neighborhoods and a short walk to everything (Príncipe Real, Chiado, Santos). The Miradouro de Santa Catarina (Santa Catarina viewpoint) is a 1 minute walk away. Quiet streets, great light, two juliet balconies plus a back terrace with outdoor table and chairs.</p>
-      <p>Two bedrooms, proper living space, and a standing-desk workspace set up for remote work. The place has been my home base for the past few years. Fully stocked, 200 Mbps internet, portable air conditioner in the bedroom, washing machine. 4th floor, no elevator.</p>
+      <p>Top-floor apartment in Santa Catarina, one of Lisbon's best neighborhoods and a short walk to everything (Príncipe Real, Chiado, Santos). The Bica funicular and Pink Street are a few minutes' walk away, and Time Out Market is about a 10 minute walk. Quiet streets, great light, two juliet balconies plus a back terrace with outdoor table and chairs.</p>
+      <p>Two bedrooms, proper living space, and a standing-desk workspace set up for remote work. The place has been my home base for the past few years. Fully stocked, 200 Mbps WiFi, portable air conditioner in the bedroom, washing machine.</p>
     </div>
 
     <!-- Amenities -->
@@ -679,7 +694,7 @@
       <div class="amenity-grid">
         <div class="amenity">
           <svg aria-hidden="true" width="20" height="20" viewBox="0 0 32 32" fill="none"><path d="M6 20h4m0 0v-8h12v8m0 0h4M4 28h24M4 4h24v16H4z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          200 Mbps+ WiFi
+          200 Mbps WiFi
         </div>
         <div class="amenity">
           <svg aria-hidden="true" width="20" height="20" viewBox="0 0 32 32" fill="none"><path d="M8 20V12h16v8M4 20h24M14 12V8a2 2 0 014 0v4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
@@ -710,6 +725,7 @@
           Heating
         </div>
       </div>
+      <p class="amenities-note">Bills are not included in the rent, approx. €150 / month.</p>
     </div>
 
     <!-- House rules -->
@@ -738,14 +754,23 @@
     <!-- CTA. State lives on #inquiry[data-state="idle|invalid|sending|sent|error"]. -->
     <div class="cta-section" id="inquiry" data-state="idle">
       <h2>Interested?</h2>
+      <p class="host-line">Hosted by Ben · usually replies within a day</p>
       <p class="inq-intro">Send a note with your dates and a bit about yourself. I'll get back to you quickly.</p>
       <form id="inquiry-form" class="inq-form" novalidate>
         <label class="sr-only" for="inq-name">Your name</label>
         <input type="text" id="inq-name" placeholder="Your name" required autocomplete="name">
         <label class="sr-only" for="inq-email">Your email</label>
         <input type="email" id="inq-email" placeholder="Your email" required autocomplete="email" inputmode="email">
-        <label class="sr-only" for="inq-dates">Dates</label>
-        <input type="text" id="inq-dates" placeholder="Dates (e.g. 1 Feb to 30 Apr)" required>
+        <div class="inq-dates">
+          <div>
+            <label for="inq-checkin">Check in</label>
+            <input type="date" id="inq-checkin" required>
+          </div>
+          <div>
+            <label for="inq-checkout">Check out</label>
+            <input type="date" id="inq-checkout" required>
+          </div>
+        </div>
         <label class="sr-only" for="inq-message">A bit about yourself</label>
         <textarea id="inq-message" rows="4" placeholder="A bit about yourself and why you're coming to Lisbon"></textarea>
         <input type="text" id="inq-website" class="hp" name="website" tabindex="-1" autocomplete="off" aria-hidden="true">
@@ -754,6 +779,8 @@
       </form>
       <p class="inq-done" id="inq-done" tabindex="-1"></p>
     </div>
+
+    </section><!-- /#details -->
 
   </main>
 
@@ -821,9 +848,9 @@
       return m;
     }
 
-    // Derived state: the page behind is inert whenever a modal layer is up.
+    // Derived state: the page behind is inert while the lightbox (the only modal layer) is up.
     function renderShell() {
-      $('page').inert = root.dataset.gate !== 'unlocked' || root.dataset.lightbox === 'open';
+      $('page').inert = root.dataset.lightbox === 'open';
     }
 
     // Form-encoded because the Apps Script reads e.parameter; no-cors so no preflight.
@@ -841,7 +868,7 @@
       try { return localStorage.getItem(STORAGE_KEY) || ''; } catch (_) { return ''; }
     }
 
-    /* ── Machine 1: email gate ── locked → submitting → unlocked ── */
+    /* ── Machine 1: email gate (inline unlock card) ── locked → submitting → unlocked ── */
     const savedEmail = readSavedEmail();
     const gate = createMachine({
       initial: savedEmail ? 'unlocked' : 'locked',
@@ -871,7 +898,7 @@
           if (ctx.error) $('gate-email').focus();
         },
         submitting(ctx, m) {
-          // Private mode or blocked storage: the gate still opens, it just will not be remembered.
+          // Private mode or blocked storage: the listing still unlocks, it just will not be remembered.
           try { localStorage.setItem(STORAGE_KEY, ctx.email); } catch (_) {}
           // Visitor log is best effort. The gate opens when it lands, fails, or takes too long.
           const done = () => m.send('DONE');
@@ -888,7 +915,8 @@
         unlocked(ctx, m, from) {
           const inqEmail = $('inq-email');
           if (ctx.email && !inqEmail.value) inqEmail.value = ctx.email;
-          if (from) $('listing-title').focus({ preventScroll: true });
+          // The card is replaced in place by the gated details, so focus moves there.
+          if (from) $('details').focus({ preventScroll: true });
         }
       },
       render(state, ctx) {
@@ -898,7 +926,7 @@
         const input = $('gate-email');
         btn.disabled = busy;
         btn.setAttribute('aria-busy', String(busy));
-        btn.textContent = busy ? 'Opening...' : 'View listing';
+        btn.textContent = busy ? 'Opening...' : 'Unlock full listing';
         input.readOnly = busy;
         input.setAttribute('aria-invalid', String(!!ctx.error));
         $('gate-error').textContent = ctx.error;
@@ -913,22 +941,32 @@
     $('gate-email').addEventListener('input', () => gate.send('EDIT'));
 
     /* ── Machine 2: inquiry form ── idle ⇄ invalid → sending → sent | error ── */
-    const INQ_FIELDS = { name: 'inq-name', email: 'inq-email', dates: 'inq-dates' };
+    const INQ_FIELDS = { name: 'inq-name', email: 'inq-email', checkin: 'inq-checkin', checkout: 'inq-checkout' };
+    const DATE_RE = /^\d{4}-\d{2}-\d{2}$/; // value format of <input type="date">, sorts as text
 
     function submitInquiry(ctx, f) {
       ctx.invalid = '';
       ctx.message = '';
       if (!f.name) ctx.invalid = 'name';
       else if (!EMAIL_RE.test(f.email)) ctx.invalid = 'email';
-      else if (!f.dates) ctx.invalid = 'dates';
+      else if (!DATE_RE.test(f.checkin)) ctx.invalid = 'checkin';
+      else if (!DATE_RE.test(f.checkout)) ctx.invalid = 'checkout';
       if (ctx.invalid) {
         ctx.message = {
           name: 'Please add your name.',
           email: 'Please enter a valid email address.',
-          dates: 'Please add your dates.'
+          checkin: 'Please add your check in date.',
+          checkout: 'Please add your check out date.'
         }[ctx.invalid];
         return 'invalid';
       }
+      if (f.checkout < f.checkin) {
+        ctx.invalid = 'checkout';
+        ctx.message = 'Check out cannot be before check in.';
+        return 'invalid';
+      }
+      // Posted as one string so the message body keeps its "Dates: ..." line.
+      f.dates = f.checkin + ' to ' + f.checkout;
       ctx.fields = f;
       return 'sending';
     }
@@ -1002,19 +1040,25 @@
       inquiry.send('SUBMIT', {
         name: $('inq-name').value.trim(),
         email: $('inq-email').value.trim(),
-        dates: $('inq-dates').value.trim(),
+        checkin: $('inq-checkin').value,
+        checkout: $('inq-checkout').value,
         note: $('inq-message').value.trim(),
         website: $('inq-website').value
       });
     });
     $('inquiry-form').addEventListener('input', () => inquiry.send('EDIT'));
+    // Input constraint, not state: the check out picker cannot go earlier than check in.
+    $('inq-checkin').addEventListener('change', e => { $('inq-checkout').min = e.target.value; });
 
     /* ── Machine 3: lightbox ── closed ⇄ open(index) ── */
     const slots = Array.from(document.querySelectorAll('#gallery [data-idx]'));
     const lb = $('lightbox');
     const lbImg = $('lb-img');
     const lbWrap = $('lb-wrap');
-    const wrapIndex = i => (i + slots.length) % slots.length;
+    // Before the gate is unlocked only the first PUBLIC_PHOTOS (hero + 4) can be viewed.
+    const PUBLIC_PHOTOS = 5;
+    const photoLimit = () => gate.state === 'unlocked' ? slots.length : Math.min(PUBLIC_PHOTOS, slots.length);
+    const wrapIndex = i => { const n = photoLimit(); return ((i % n) + n) % n; };
 
     const lightbox = createMachine({
       initial: 'closed',
@@ -1058,7 +1102,9 @@
           }
           lbImg.alt = slot.querySelector('img').alt;
           $('lb-caption').textContent = slot.dataset.caption;
-          $('lb-counter').textContent = (ctx.index + 1) + ' / ' + slots.length;
+          const limit = photoLimit();
+          $('lb-counter').textContent = (ctx.index + 1) + ' / ' + limit +
+            (limit < slots.length ? ' · ' + (slots.length - limit) + ' more with your email' : '');
         }
         renderShell();
       }
