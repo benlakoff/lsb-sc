@@ -7,7 +7,7 @@ For every photos/*.jpg: applies EXIF rotation, converts to sRGB (so stripping
 the iPhone Display P3 profile does not shift colours), strips metadata
 (including GPS), caps the long edge at 2000px and writes a progressive JPEG.
 Also writes photos/thumbs/<name>.jpg (long edge 900px) for the gallery grid
-and photos/og.jpg (1200x630 crop of hero.jpg) for link previews.
+and photos/og.jpg (1200x630 crop of terrace.jpg, the lead photo) for link previews.
 Safe to re-run: files already within the size cap are left untouched.
 Requires Pillow.
 """
@@ -55,7 +55,7 @@ for src in sorted(ROOT.glob("*.jpg")):
     save(im, thumb, THUMB_EDGE, 78)
     print(f"{src.name}: {before // 1024}KB -> {src.stat().st_size // 1024}KB {size}, thumb {thumb.stat().st_size // 1024}KB")
 
-hero = load(ROOT / "hero.jpg")
-og = ImageOps.fit(hero, (1200, 630), Image.LANCZOS, centering=(0.5, 0.55))
+hero = load(ROOT / "terrace.jpg")
+og = ImageOps.fit(hero, (1200, 630), Image.LANCZOS, centering=(0.5, 0.56))
 og.save(ROOT / "og.jpg", "JPEG", quality=82, optimize=True, progressive=True)
 print("og.jpg", (ROOT / "og.jpg").stat().st_size // 1024, "KB")

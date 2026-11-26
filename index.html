@@ -4,18 +4,22 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Lisbon Apartment in Santa Catarina</title>
-  <meta name="description" content="Top-floor 2 bedroom, 1.5 bathroom apartment in Santa Catarina, Lisbon. Back terrace, standing-desk workspace, fast WiFi.">
+  <meta name="description" content="Top-floor 2 bedroom, 1.5 bathroom apartment in Santa Catarina, Lisbon. €2,500 / month, minimum stay 1 month. 1 minute walk to the Miradouro de Santa Catarina. Back terrace, standing-desk workspace, fast WiFi.">
   <meta property="og:type" content="website">
   <meta property="og:title" content="Lisbon Apartment in Santa Catarina">
-  <meta property="og:description" content="Top-floor 2 bedroom, 1.5 bathroom apartment in Santa Catarina, Lisbon. Back terrace, standing-desk workspace, fast WiFi.">
+  <meta property="og:description" content="Top-floor 2 bedroom, 1.5 bathroom apartment in Santa Catarina, Lisbon. €2,500 / month, minimum stay 1 month. 1 minute walk to the Miradouro de Santa Catarina. Back terrace, standing-desk workspace, fast WiFi.">
   <!-- og:image must be absolute. Update the host here if the site moves. -->
   <meta property="og:image" content="https://lisbon.up.railway.app/photos/og.jpg">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Back terrace of the apartment with table and chairs">
+  <meta name="twitter:title" content="Lisbon Apartment in Santa Catarina">
+  <meta name="twitter:description" content="Top-floor 2 bedroom, 1.5 bathroom apartment in Santa Catarina, Lisbon. €2,500 / month, minimum stay 1 month. 1 minute walk to the Miradouro de Santa Catarina. Back terrace, standing-desk workspace, fast WiFi.">
+  <meta name="twitter:image" content="https://lisbon.up.railway.app/photos/og.jpg">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="theme-color" content="#ffffff">
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23222'/%3E%3Cpath d='M16 7 6 16h3v9h5v-6h4v6h5v-9h3z' fill='%23fff'/%3E%3C/svg%3E">
-  <link rel="preload" as="image" href="photos/hero.jpg">
+  <link rel="preload" as="image" href="photos/terrace.jpg" imagesrcset="photos/thumbs/terrace.jpg 675w, photos/terrace.jpg 1500w" imagesizes="(max-width: 768px) 100vw, 50vw">
   <script>
     // Gate machine, early restore: returning visitors skip the gate before first paint.
     // (See STATE_MACHINES.md. The machine in the main script re-reads this same key.)
@@ -114,7 +118,7 @@
 
     /* ── Photo grid ── */
     .gallery-wrapper {
-      margin: 28px 0 28px;
+      margin: 20px 0 4px;
       border-radius: var(--radius);
       overflow: hidden;
     }
@@ -288,8 +292,8 @@
       display: grid;
       grid-template-columns: 1fr auto;
       gap: 48px;
-      padding: 28px 0 24px;
-      border-bottom: 1px solid var(--border);
+      align-items: end;
+      padding: 28px 0 0;
     }
 
     .listing-title h1 {
@@ -303,6 +307,57 @@
       font-size: 15px;
       color: var(--muted);
     }
+
+    .listing-title .location-near {
+      display: flex;
+      align-items: flex-start;
+      gap: 6px;
+      margin-top: 6px;
+      color: var(--text);
+    }
+    .location-near svg { flex-shrink: 0; margin-top: 2px; color: var(--muted); }
+
+    .price-box { text-align: right; white-space: nowrap; }
+    .price { font-size: 18px; color: var(--text); }
+    .price strong { font-size: 28px; font-weight: 600; letter-spacing: -0.01em; }
+    .min-stay { margin-top: 4px; font-size: 15px; color: var(--muted); }
+
+    .good-to-know {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      margin-top: 16px;
+      padding: 12px 16px;
+      background: #f7f7f7;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      font-size: 15px;
+      line-height: 1.5;
+    }
+    .good-to-know svg { flex-shrink: 0; margin-top: 1px; color: var(--muted); }
+
+    .photo-grid-main { position: relative; }
+    .photo-count {
+      position: absolute;
+      top: 12px;
+      left: 12px;
+      z-index: 2;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 7px 12px;
+      border: 0;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.94);
+      color: var(--text);
+      font: inherit;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.25);
+    }
+    .photo-count:hover { background: #fff; }
+    .hero-slot .gallery-img { object-position: 50% 62%; }
 
     /* ── Quick stats ── */
     .stats {
@@ -452,7 +507,8 @@
       .lb-stage .lb-btn { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(0,0,0,0.45); z-index: 1; }
       #lb-prev { left: 12px; }
       #lb-next { right: 12px; }
-      .listing-header { grid-template-columns: 1fr; gap: 0; }
+      .listing-header { grid-template-columns: 1fr; gap: 16px; }
+      .price-box { text-align: left; }
       .amenity-grid { grid-template-columns: 1fr; }
       .listing-title h1 { font-size: 22px; }
     }
@@ -487,32 +543,58 @@
 
   <main class="container">
 
+    <!-- Title -->
+    <div class="listing-header">
+      <div class="listing-title">
+        <h1 id="listing-title" tabindex="-1">Top-floor apartment in Santa Catarina</h1>
+        <div class="location">Santa Catarina, Lisbon, Portugal</div>
+        <div class="location location-near">
+          <svg aria-hidden="true" width="16" height="16" viewBox="0 0 32 32" fill="none"><path d="M16 29s9-8.2 9-15a9 9 0 10-18 0c0 6.8 9 15 9 15z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><circle cx="16" cy="14" r="3" stroke="currentColor" stroke-width="2"/></svg>
+          1 minute walk to the Miradouro de Santa Catarina (Santa Catarina viewpoint)
+        </div>
+      </div>
+      <div class="price-box">
+        <div class="price"><strong>€2,500</strong> / month</div>
+        <div class="min-stay">Minimum stay: 1 month</div>
+      </div>
+    </div>
+
+    <!-- Honest expectations, kept near the top on purpose -->
+    <div class="good-to-know" role="note">
+      <svg aria-hidden="true" width="20" height="20" viewBox="0 0 32 32" fill="none"><circle cx="16" cy="16" r="12" stroke="currentColor" stroke-width="2"/><path d="M16 15v7" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><circle cx="16" cy="10.5" r="1.4" fill="currentColor"/></svg>
+      <p><strong>Good to know:</strong> the apartment is on the 4th floor with no elevator, and the only air conditioning is a portable unit in the bedroom.</p>
+    </div>
+
     <!-- Photo gallery -->
     <div class="gallery-wrapper" id="gallery" role="group" aria-label="Photos">
-      <!-- Row 1: hero + 4 -->
+      <!-- Row 1: hero (terrace) + 4 -->
       <div class="photo-grid-main">
-        <button type="button" class="hero-slot" data-idx="0" data-full="photos/hero.jpg" data-caption="Living Room" aria-label="View photo 1 of 11: Living Room">
-          <img class="gallery-img" src="photos/hero.jpg" alt="Living room with sofa, dining table and balcony doors" width="2000" height="1500" fetchpriority="high">
-          <span class="slot-caption" aria-hidden="true">Living Room</span>
+        <button type="button" class="hero-slot" data-idx="0" data-full="photos/terrace.jpg" data-caption="Terrace" aria-label="View photo 1 of 11: Terrace">
+          <img class="gallery-img" src="photos/terrace.jpg" srcset="photos/thumbs/terrace.jpg 675w, photos/terrace.jpg 1500w" sizes="(max-width: 768px) 100vw, 50vw" alt="Back terrace with table and chairs, seen through the kitchen doors" width="1500" height="2000" fetchpriority="high">
+          <span class="slot-caption" aria-hidden="true">Terrace</span>
         </button>
         <div class="photo-grid-right">
-          <button type="button" class="slot" data-idx="1" data-full="photos/bedroom.jpg" data-caption="Bedroom" aria-label="View photo 2 of 11: Bedroom">
-            <img class="gallery-img" src="photos/thumbs/bedroom.jpg" alt="Main bedroom with double bed and balcony doors" width="675" height="900" loading="lazy" decoding="async">
-            <span class="slot-caption" aria-hidden="true">Bedroom</span>
-          </button>
-          <button type="button" class="slot" data-idx="2" data-full="photos/terrace.jpg" data-caption="Terrace" aria-label="View photo 3 of 11: Terrace">
-            <img class="gallery-img" src="photos/thumbs/terrace.jpg" alt="Back terrace with table and chairs, seen through the kitchen doors" width="675" height="900" loading="lazy" decoding="async">
-            <span class="slot-caption" aria-hidden="true">Terrace</span>
-          </button>
-          <button type="button" class="slot" data-idx="3" data-full="photos/workspace.jpg" data-caption="Office" aria-label="View photo 4 of 11: Office">
-            <img class="gallery-img" src="photos/thumbs/workspace.jpg" alt="Office with standing desk, monitor and sofa" width="675" height="900" loading="lazy" decoding="async">
-            <span class="slot-caption" aria-hidden="true">Office</span>
-          </button>
-          <button type="button" class="slot" data-idx="4" data-full="photos/view.jpg" data-caption="View from Bedroom" aria-label="View photo 5 of 11: View from Bedroom">
+          <button type="button" class="slot" data-idx="1" data-full="photos/view.jpg" data-caption="View from Bedroom" aria-label="View photo 2 of 11: View from Bedroom">
             <img class="gallery-img" src="photos/thumbs/view.jpg" alt="View over Lisbon rooftops from the bedroom" width="675" height="900" loading="lazy" decoding="async">
             <span class="slot-caption" aria-hidden="true">View from Bedroom</span>
           </button>
+          <button type="button" class="slot" data-idx="2" data-full="photos/hero.jpg" data-caption="Living Room" aria-label="View photo 3 of 11: Living Room">
+            <img class="gallery-img" src="photos/thumbs/hero.jpg" alt="Living room with sofa, dining table and balcony doors" width="900" height="675" loading="lazy" decoding="async">
+            <span class="slot-caption" aria-hidden="true">Living Room</span>
+          </button>
+          <button type="button" class="slot" data-idx="3" data-full="photos/bedroom.jpg" data-caption="Bedroom" aria-label="View photo 4 of 11: Bedroom">
+            <img class="gallery-img" src="photos/thumbs/bedroom.jpg" alt="Main bedroom with double bed and balcony doors" width="675" height="900" loading="lazy" decoding="async">
+            <span class="slot-caption" aria-hidden="true">Bedroom</span>
+          </button>
+          <button type="button" class="slot" data-idx="4" data-full="photos/workspace.jpg" data-caption="Office" aria-label="View photo 5 of 11: Office">
+            <img class="gallery-img" src="photos/thumbs/workspace.jpg" alt="Office with standing desk, monitor and sofa" width="675" height="900" loading="lazy" decoding="async">
+            <span class="slot-caption" aria-hidden="true">Office</span>
+          </button>
         </div>
+        <button type="button" class="photo-count" id="photo-count" aria-label="View all 11 photos">
+          <svg aria-hidden="true" width="14" height="14" viewBox="0 0 16 16" fill="none"><rect x="1.5" y="3.5" width="13" height="10" rx="1.5" stroke="currentColor" stroke-width="1.5"/><circle cx="8" cy="8.5" r="2.5" stroke="currentColor" stroke-width="1.5"/></svg>
+          <span id="photo-count-text">11 photos</span>
+        </button>
       </div>
       <!-- Row 2: 3 across -->
       <div class="photo-grid-secondary">
@@ -543,14 +625,6 @@
           <img class="gallery-img" src="photos/thumbs/living2.jpg" alt="Living room seen from above, with sofa, TV and balcony" width="900" height="675" loading="lazy" decoding="async">
           <span class="slot-caption" aria-hidden="true">Living Room</span>
         </button>
-      </div>
-    </div>
-
-    <!-- Title -->
-    <div class="listing-header">
-      <div class="listing-title">
-        <h1 id="listing-title" tabindex="-1">Top-floor apartment in Santa Catarina</h1>
-        <div class="location">Lisbon, Portugal</div>
       </div>
     </div>
 
@@ -595,7 +669,7 @@
 
     <!-- Description -->
     <div class="description">
-      <p>Top-floor apartment in Santa Catarina, one of Lisbon's best neighborhoods and a short walk to everything (Príncipe Real, Chiado, Santos). Quiet streets, great light, two juliet balconies plus a back terrace with outdoor table and chairs.</p>
+      <p>Top-floor apartment in Santa Catarina, one of Lisbon's best neighborhoods and a short walk to everything (Príncipe Real, Chiado, Santos). The Miradouro de Santa Catarina (Santa Catarina viewpoint) is a 1 minute walk away. Quiet streets, great light, two juliet balconies plus a back terrace with outdoor table and chairs.</p>
       <p>Two bedrooms, proper living space, and a standing-desk workspace set up for remote work. The place has been my home base for the past few years. Fully stocked, 200 Mbps internet, portable air conditioner in the bedroom, washing machine. 4th floor, no elevator.</p>
     </div>
 
@@ -634,6 +708,29 @@
         <div class="amenity">
           <svg aria-hidden="true" width="20" height="20" viewBox="0 0 32 32" fill="none"><path d="M8 28V16l8-12 8 12v12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M13 28v-8h6v8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
           Heating
+        </div>
+      </div>
+    </div>
+
+    <!-- House rules -->
+    <div class="amenities rules">
+      <h2>House rules</h2>
+      <div class="amenity-grid">
+        <div class="amenity">
+          <svg aria-hidden="true" width="20" height="20" viewBox="0 0 32 32" fill="none"><circle cx="16" cy="16" r="12" stroke="currentColor" stroke-width="2"/><path d="M7.5 7.5l17 17" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+          No pets
+        </div>
+        <div class="amenity">
+          <svg aria-hidden="true" width="20" height="20" viewBox="0 0 32 32" fill="none"><circle cx="16" cy="16" r="12" stroke="currentColor" stroke-width="2"/><path d="M7.5 7.5l17 17" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+          No smoking
+        </div>
+        <div class="amenity">
+          <svg aria-hidden="true" width="20" height="20" viewBox="0 0 32 32" fill="none"><circle cx="16" cy="11" r="5" stroke="currentColor" stroke-width="2"/><path d="M6 27c1-5.5 5-8 10-8s9 2.5 10 8" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+          3 guests max
+        </div>
+        <div class="amenity">
+          <svg aria-hidden="true" width="20" height="20" viewBox="0 0 32 32" fill="none"><rect x="5" y="7" width="22" height="20" rx="2" stroke="currentColor" stroke-width="2"/><path d="M5 13h22M11 4v5M21 4v5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+          Minimum stay: 1 month
         </div>
       </div>
     </div>
@@ -969,6 +1066,11 @@
 
     ['load', 'error'].forEach(t => lbImg.addEventListener(t, () => lbWrap.setAttribute('aria-busy', 'false')));
     slots.forEach((slot, i) => slot.addEventListener('click', () => lightbox.send('OPEN', { index: i, opener: slot })));
+    // Photo count badge: opens the viewer at the first photo.
+    const photoCount = $('photo-count');
+    $('photo-count-text').textContent = slots.length + ' photos';
+    photoCount.setAttribute('aria-label', 'View all ' + slots.length + ' photos');
+    photoCount.addEventListener('click', () => lightbox.send('OPEN', { index: 0, opener: photoCount }));
     $('lb-close').addEventListener('click', () => lightbox.send('CLOSE'));
     $('lb-prev').addEventListener('click', () => lightbox.send('PREV'));
     $('lb-next').addEventListener('click', () => lightbox.send('NEXT'));
